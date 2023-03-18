@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+package com.dohatec;
+
+message SupplyOrder {
+  int64 supplyOrderID = 1;
+  bytes trackingNumber = 2;
+  int32 noaId = 3;
+  string referenceNo = 4;
+  int32 winnerId = 5;
+  google.protobuf.Timestamp supplyDate = 6;
+  repeated Item items = 7;
+}
+
+message Item {
+  int64 itemId = 1;
+  string name = 2;
+}
+
+service SupplyOrderService {
+  rpc getSupplyOrder(SupplyOrder) returns(SupplyOrder){};
+}

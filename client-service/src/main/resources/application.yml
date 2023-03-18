@@ -1,0 +1,10 @@
+grpc:
+  client:
+    grpc-dohatec-service:
+      address: static://localhost:9090
+      negotiationType: plaintext
+
+#spring:
+#  jackson:
+#    serialization:
+#      fail-on-self-references: false
