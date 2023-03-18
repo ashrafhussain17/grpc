@@ -1,3 +1,3 @@
-# grpc-with-springboot
+grpc example
 
-# Youtube Video Link: https://youtu.be/zCXN4wj0uPo
+
