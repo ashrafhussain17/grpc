@@ -1,8 +1,8 @@
 package com.dohatec.pcbook;
 
-import com.gitlab.techschool.pcbook.pb.Filter;
-import com.gitlab.techschool.pcbook.pb.Laptop;
-import com.gitlab.techschool.pcbook.pb.Memory;
+import com.dohatec.Filter;
+import com.dohatec.Laptop;
+import com.dohatec.Memory;
 import io.grpc.Context;
 
 import java.util.Map;

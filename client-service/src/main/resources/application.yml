@@ -1,7 +1,10 @@
 grpc:
   client:
-    grpc-dohatec-service:
+    grpc-dohatec-service1:
       address: static://localhost:9090
+      negotiationType: plaintext
+    grpc-dohatec-service2:
+      address: static://localhost:9091
       negotiationType: plaintext
 
 #spring:

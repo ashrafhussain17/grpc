@@ -1,7 +1,7 @@
 package com.dohatec.pcbook;
 
-import com.gitlab.techschool.pcbook.pb.Filter;
-import com.gitlab.techschool.pcbook.pb.Laptop;
+import com.dohatec.Filter;
+import com.dohatec.Laptop;
 import io.grpc.Context;
 
 public interface LaptopStore {

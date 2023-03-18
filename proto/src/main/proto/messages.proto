@@ -3,7 +3,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "com.dohatec";
 
-package com.dohatec.test;
+package com.dohatec;
 
 message Repository {
   string name = 1;

@@ -1,6 +1,6 @@
 package com.dohatec.pcbook;
 
-import com.gitlab.techschool.pcbook.pb.*;
+import com.dohatec.*;
 import com.google.protobuf.ByteString;
 import io.grpc.Context;
 import io.grpc.Status;
@@ -38,11 +38,7 @@ public class LaptopService extends LaptopServiceGrpc.LaptopServiceImplBase {
             try {
                 uuid = UUID.fromString(id);
             } catch (IllegalArgumentException e) {
-                responseObserver.onError(
-                        Status.INVALID_ARGUMENT
-                                .withDescription(e.getMessage())
-                                .asRuntimeException()
-                );
+                responseObserver.onError(Status.INVALID_ARGUMENT.withDescription(e.getMessage()).asRuntimeException());
                 return;
             }
         }
@@ -56,11 +52,7 @@ public class LaptopService extends LaptopServiceGrpc.LaptopServiceImplBase {
 
         if (Context.current().isCancelled()) {
             logger.info("request is cancelled");
-            responseObserver.onError(
-                    Status.CANCELLED
-                            .withDescription("request is cancelled")
-                            .asRuntimeException()
-            );
+            responseObserver.onError(Status.CANCELLED.withDescription("request is cancelled").asRuntimeException());
             return;
         }
 
@@ -68,18 +60,10 @@ public class LaptopService extends LaptopServiceGrpc.LaptopServiceImplBase {
         try {
             laptopStore.Save(other);
         } catch (AlreadyExistsException e) {
-            responseObserver.onError(
-                    Status.ALREADY_EXISTS
-                            .withDescription(e.getMessage())
-                            .asRuntimeException()
-            );
+            responseObserver.onError(Status.ALREADY_EXISTS.withDescription(e.getMessage()).asRuntimeException());
             return;
         } catch (Exception e) {
-            responseObserver.onError(
-                    Status.INTERNAL
-                            .withDescription(e.getMessage())
-                            .asRuntimeException()
-            );
+            responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
             return;
         }
 
@@ -129,11 +113,7 @@ public class LaptopService extends LaptopServiceGrpc.LaptopServiceImplBase {
                     // Check laptop exists
                     Laptop found = laptopStore.Find(laptopID);
                     if (found == null) {
-                        responseObserver.onError(
-                                Status.NOT_FOUND
-                                        .withDescription("laptop ID doesn't exist")
-                                        .asRuntimeException()
-                        );
+                        responseObserver.onError(Status.NOT_FOUND.withDescription("laptop ID doesn't exist").asRuntimeException());
                     }
 
                     return;
@@ -144,33 +124,21 @@ public class LaptopService extends LaptopServiceGrpc.LaptopServiceImplBase {
 
                 if (imageData == null) {
                     logger.info("image info wasn't sent before");
-                    responseObserver.onError(
-                            Status.INVALID_ARGUMENT
-                                    .withDescription("image info wasn't sent before")
-                                    .asRuntimeException()
-                    );
+                    responseObserver.onError(Status.INVALID_ARGUMENT.withDescription("image info wasn't sent before").asRuntimeException());
                     return;
                 }
 
                 int size = imageData.size() + chunkData.size();
                 if (size > maxImageSize) {
                     logger.info("image is too large: " + size);
-                    responseObserver.onError(
-                            Status.INVALID_ARGUMENT
-                                    .withDescription("image is too large: " + size)
-                                    .asRuntimeException()
-                    );
+                    responseObserver.onError(Status.INVALID_ARGUMENT.withDescription("image is too large: " + size).asRuntimeException());
                     return;
                 }
 
                 try {
                     chunkData.writeTo(imageData);
                 } catch (IOException e) {
-                    responseObserver.onError(
-                            Status.INTERNAL
-                                    .withDescription("cannot write chunk data: " + e.getMessage())
-                                    .asRuntimeException()
-                    );
+                    responseObserver.onError(Status.INTERNAL.withDescription("cannot write chunk data: " + e.getMessage()).asRuntimeException());
                     return;
                 }
             }
@@ -188,18 +156,11 @@ public class LaptopService extends LaptopServiceGrpc.LaptopServiceImplBase {
                 try {
                     imageID = imageStore.Save(laptopID, imageType, imageData);
                 } catch (IOException e) {
-                    responseObserver.onError(
-                            Status.INTERNAL
-                                    .withDescription("cannot save image to the store: " + e.getMessage())
-                                    .asRuntimeException()
-                    );
+                    responseObserver.onError(Status.INTERNAL.withDescription("cannot save image to the store: " + e.getMessage()).asRuntimeException());
                     return;
                 }
 
-                UploadImageResponse response = UploadImageResponse.newBuilder()
-                        .setId(imageID)
-                        .setSize(imageSize)
-                        .build();
+                UploadImageResponse response = UploadImageResponse.newBuilder().setId(imageID).setSize(imageSize).build();
                 responseObserver.onNext(response);
                 responseObserver.onCompleted();
             }
@@ -218,20 +179,12 @@ public class LaptopService extends LaptopServiceGrpc.LaptopServiceImplBase {
 
                 Laptop found = laptopStore.Find(laptopId);
                 if (found == null) {
-                    responseObserver.onError(
-                            Status.NOT_FOUND
-                                    .withDescription("laptop ID doesn't exist")
-                                    .asRuntimeException()
-                    );
+                    responseObserver.onError(Status.NOT_FOUND.withDescription("laptop ID doesn't exist").asRuntimeException());
                     return;
                 }
 
                 Rating rating = ratingStore.Add(laptopId, score);
-                RateLaptopResponse response = RateLaptopResponse.newBuilder()
-                        .setLaptopId(laptopId)
-                        .setRatedCount(rating.getCount())
-                        .setAverageScore(rating.getSum() / rating.getCount())
-                        .build();
+                RateLaptopResponse response = RateLaptopResponse.newBuilder().setLaptopId(laptopId).setRatedCount(rating.getCount()).setAverageScore(rating.getSum() / rating.getCount()).build();
 
                 responseObserver.onNext(response);
             }
