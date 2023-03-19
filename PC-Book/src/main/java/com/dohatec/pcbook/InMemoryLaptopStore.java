@@ -4,12 +4,15 @@ import com.dohatec.Filter;
 import com.dohatec.Laptop;
 import com.dohatec.Memory;
 import io.grpc.Context;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
 
+@Component
 public class InMemoryLaptopStore implements LaptopStore {
     private static final Logger logger = Logger.getLogger(InMemoryLaptopStore.class.getName());
 

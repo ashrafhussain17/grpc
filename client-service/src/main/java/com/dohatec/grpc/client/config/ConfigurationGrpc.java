@@ -22,6 +22,12 @@ public class ConfigurationGrpc {
         return BookAuthorServiceGrpc.newBlockingStub(channel);
     }
 
+    @Bean(name = "service1NonBlockingStub")
+    public BookAuthorServiceGrpc.BookAuthorServiceStub service1NonBlockingStub() {
+        ManagedChannel channel = ManagedChannelBuilder.forTarget(service1Address).usePlaintext().build();
+        return BookAuthorServiceGrpc.newStub(channel);
+    }
+
     @Bean(name = "service2Stub")
     public LaptopServiceGrpc.LaptopServiceBlockingStub service2Stub() {
         ManagedChannel channel = ManagedChannelBuilder.forTarget(service2Address).usePlaintext().build();

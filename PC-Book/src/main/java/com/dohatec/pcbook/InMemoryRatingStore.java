@@ -1,8 +1,11 @@
 package com.dohatec.pcbook;
 
+import org.springframework.stereotype.Component;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+@Component
 public class InMemoryRatingStore implements RatingStore {
     private ConcurrentMap<String, Rating> data;
 

@@ -8,6 +8,7 @@ import com.google.protobuf.Descriptors;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class PCService {
 
 
     public Map<Descriptors.FieldDescriptor, Object> searchLaptop(SearchLaptopRequest request) {
+        Map<Descriptors.FieldDescriptor, Object> returnValue = new HashMap<>();
         Iterator<SearchLaptopResponse> searchLaptopResponseIterator = synchronousClient.searchLaptop(request);
         return  searchLaptopResponseIterator.next().getAllFields();
     }
